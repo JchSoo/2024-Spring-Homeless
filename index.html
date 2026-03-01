@@ -269,6 +269,25 @@
         padding: 48px;
       }
     }
+    /* =========================
+      동아리 소개 애니메이션 (묵직하고 느리게)
+      ========================= */
+    .reveal-dramatic {
+      opacity: 0;
+      transform: translateY(150px); 
+      /* 시간을 1.8초로 늘리고, 곡선을 더 완만하게(0.1, 1, 0.3, 1) 조정했습니다 */
+      transition: opacity 1.5s ease-out, transform 1.8s cubic-bezier(0.1, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-dramatic.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* 요소별로 순차적으로 나타나도록 딜레이 추가 */
+    .about_biglogo .heading_container.reveal-dramatic { transition-delay: 0.1s; }
+    .about_biglogo .about_logo_pane.reveal-dramatic { transition-delay: 0.1s; }
+    .about_biglogo .about_copy.reveal-dramatic { transition-delay: 0.1s; }
   </style>
 </head>
 
@@ -777,6 +796,34 @@
       apply(0);
     })();
   </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // 딱 2개의 덩어리만 안전하게 타겟팅합니다.
+    const targets = document.querySelectorAll(
+      ".about_biglogo .heading_container, .about_biglogo .about_logo_pane, .about_biglogo .about_copy"
+    );
+
+    // 초기 숨김 상태 세팅
+    targets.forEach(target => {
+      target.classList.add("reveal-dramatic");
+    });
+
+    // 화면에 15% 진입 시 발동
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target); 
+        }
+      });
+    }, { threshold: 0.5 });
+
+    targets.forEach((target) => {
+      observer.observe(target);
+    });
+  });
+</script>
 
   <!-- ✅ Google Map callback 에러 방지 (없어도 되지만 콘솔 깨끗하게) -->
   <script>
