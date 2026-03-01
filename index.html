@@ -22,7 +22,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
@@ -32,6 +33,240 @@
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 
+  <!-- ✅ Task-Changer style override (index.html only) -->
+  <style>
+    /* =========================
+      Activity Task Changer (final)
+      ========================= */
+    .activity_taskchanger {
+      background: #071a33 !important;
+      padding-top: 70px;
+      padding-bottom: 70px;
+    }
+
+    .activity_taskchanger .heading_container h2 {
+      color: #fff;
+    }
+
+    .activity_taskchanger .activity_subtitle {
+      margin-top: 10px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .tc-wrap {
+      margin-top: 26px;
+    }
+
+    .tc-stage {
+      position: relative;
+      height: 560px;
+      border-radius: 26px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      user-select: none;
+      touch-action: pan-y;
+      perspective: 1400px;
+    }
+
+    /* blurred background */
+    .tc-bg {
+      position: absolute;
+      inset: -30%;
+      background-size: cover;
+      background-position: center;
+      filter: blur(18px) saturate(1.1);
+      transform: scale(1.15);
+      opacity: 0.55;
+      z-index: 0;
+    }
+
+    .tc-bg:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+          rgba(7, 26, 51, 0.35) 0%,
+          rgba(7, 26, 51, 0.55) 45%,
+          rgba(7, 26, 51, 0.80) 100%);
+    }
+
+    .tc-cards {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .tc-card {
+      position: absolute;
+      width: min(760px, 88%);
+      height: 430px;
+      border-radius: 26px;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      will-change: transform, filter, opacity;
+      transition: transform .28s ease, filter .28s ease, opacity .28s ease;
+      pointer-events: none; /* ✅ 기본 클릭 차단 */
+    }
+
+    .tc-stage.is-dragging .tc-card {
+      transition: none !important;
+    }
+
+    .tc-card.is-active {
+      pointer-events: auto; /* ✅ 중앙 카드만 클릭 허용 */
+    }
+
+    .tc-media {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transform: scale(1.02);
+    }
+
+    /* volunteer 카드: 아이콘이 찢어지지 않게 */
+    .tc-card.is-volunteer {
+      background: linear-gradient(135deg, rgba(0, 127, 164, 0.25), rgba(0, 32, 74, 0.35));
+    }
+
+    .tc-card.is-volunteer .tc-media {
+      object-fit: contain;
+      transform: none;
+      padding: 64px;
+      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
+    }
+
+    /* overlay */
+    .tc-overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 18px 18px 16px;
+      color: #fff;
+      background: linear-gradient(180deg,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.22) 18%,
+          rgba(0, 0, 0, 0.62) 100%);
+    }
+
+    .tc-pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .tc-title {
+      margin-top: 10px;
+      margin-bottom: 6px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .tc-desc {
+      margin: 0 0 10px;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.55;
+    }
+
+    .tc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tc-tags span {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .tc-link {
+      font-weight: 900;
+      color: #9fe7ff;
+      text-decoration: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tc-link:hover {
+      text-decoration: underline;
+    }
+
+    /* controls */
+    .tc-controls {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 16px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 9999;
+      pointer-events: auto;
+    }
+
+    .tc-btn {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.10);
+      color: #fff;
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-weight: 900;
+      outline: none;
+    }
+
+    .tc-btn.primary {
+      background: rgba(0, 127, 164, 0.55);
+      border-color: rgba(0, 127, 164, 0.65);
+    }
+
+    .tc-btn:active {
+      transform: translateY(1px);
+    }
+
+    .tc-hint {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 14px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.65);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    @media (max-width: 767px) {
+      .tc-stage {
+        height: 520px;
+      }
+
+      .tc-card {
+        height: 390px;
+      }
+
+      .tc-card.is-volunteer .tc-media {
+        padding: 48px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -40,7 +275,7 @@
 
     <div class="hero_bg_box">
       <div class="bg_img_box">
-        <img src="images/hero-bg.png" alt=""> 
+        <img src="images/hero-bg.png" alt="">
       </div>
     </div>
 
@@ -54,7 +289,8 @@
             </span>
           </a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
           </button>
 
@@ -67,15 +303,15 @@
                 <a class="nav-link" href="education.html">교육 활동</a>
                 <ul>
                   <li>
-                      <a href="seminar.html" class="nav-link">정기 세미나</a>
+                    <a href="seminar.html" class="nav-link">정기 세미나</a>
                   </li>
                   <li>
-                      <a href="hack.html" class="nav-link">해킹 시연회</a>
+                    <a href="hack.html" class="nav-link">해킹 시연회</a>
                   </li>
                   <li>
-                      <a href="hackathon.html" class="nav-link">SOGRA Hackathon</a>
+                    <a href="hackathon.html" class="nav-link">SOGRA Hackathon</a>
                   </li>
-              </ul>
+                </ul>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="history.html">활동 기록</a>
@@ -86,14 +322,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="https://open.kakao.com/o/sIllhT5f">가입 문의</a>
               </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="fa fa-user" aria-hidden="true"></i> Login</a>
-              </li> -->
-              <!-- <form class="form-inline">
-                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form> -->
             </ul>
           </div>
         </nav>
@@ -128,7 +356,8 @@
                 </div>
                 <div class="col-md-6">
                   <div class="img-box">
-                    <img src="https://cdn.jsdelivr.net/gh/4RG0S/2024-Spring-Homeless@main/images/main_floating.png" alt="">
+                    <img src="https://cdn.jsdelivr.net/gh/4RG0S/2024-Spring-Homeless@main/images/main_floating.png"
+                      alt="">
                   </div>
                 </div>
               </div>
@@ -143,102 +372,136 @@
 
 
   <!-- about section -->
+<section class="about_section layout_padding about_biglogo">
+  <!-- 제목은 기존처럼 가운데 -->
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>동아리 소개</h2>
+      <p>충남대학교 컴퓨터융합학부 유일무이 정보보안 동아리</p>
+    </div>
+  </div>
 
-  <section class="about_section layout_padding">
-    <div class="container  ">
-      <div class="heading_container heading_center">
-        <h2>
-          동아리 소개
-        </h2>
-        <p>
-          충남대학교 컴퓨터융합학부 유일무이 정보보안 동아리
-        </p>
+  <!-- 본문은 좌측 끝까지 꽉 차게 -->
+  <div class="container-fluid px-0">
+    <div class="row g-0 align-items-center about_row">
+      <!-- 왼쪽: 로고(왼쪽 끝에 크게) -->
+      <div class="col-lg-6 about_logo_pane">
+        <img
+          class="about_logo_img"
+          src="https://cdn.jsdelivr.net/gh/4RG0S/2024-Spring-Homeless@main/images/logo_regular.png"
+          alt="ARGOS 로고"
+        />
       </div>
-      <div class="row">
-        <div class="col-md-6 ">
-          <div class="img-box d-flex justify-content-center align-items-center">
-            <img src="https://cdn.jsdelivr.net/gh/4RG0S/2024-Spring-Homeless@main/images/logo_regular.png" alt="" style="width:300px;height:300px;">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="detail-box">
-            <p>
-              ARGOS는 2003년 6월 25일에 설립된 충남대학교 정보보호 연구 동아리로, 동아리 이름은 그리스 신화에 나오는 '100개의 눈을 가진 문지기'에서 유래되었습니다.
-              <br>
-              'Hack the world for everyone' 이라는 모토 아래 미래 우리나라의 보안을 책임지기 위해 지속적인 연구와 학습을 하고 있습니다.
-            </p>
-            <p>
-              창립 이후 활발한 외부활동을 통해 보안 기술에 대해 연구하며, 정기적인 내부 세미나를 통해 학습 내용을 공유하고 있습니다. 
-              또한, 외부 해킹 및 보안 단체와 함께 산학 연구도 진행하고 있으며, 매년 다양한 학술 행사를 개최하고 있습니다.             
-            </p>
-          </div>
+
+      <!-- 오른쪽: 글(크게/정리) -->
+      <div class="col-lg-6">
+        <div class="about_copy">
+          <p class="about_lead">
+            ARGOS는 2003년 6월 25일 설립된 충남대학교 정보보안 연구 동아리입니다.
+          </p>
+
+          <p class="about_motto">
+            Hack the world for everyone
+          </p>
+
+          <p class="about_body">
+            창립 이후 꾸준한 연구와 학습을 기반으로 내부 세미나를 통해 지식을 공유하고,
+            외부 해킹·보안 단체와의 교류 및 산학 연구를 진행합니다.
+            또한 매년 다양한 학술 행사를 개최하며 실전 중심의 역량을 강화합니다.
+          </p>
+
+          <ul class="about_points">
+            <li>정기 세미나 · 자체 커리큘럼 · 외부 연사 초청</li>
+            <li>팀 스터디 운영 및 결과 공유 · 시상</li>
+            <li>산학 연구/대외 활동 및 연례 학술 행사 개최</li>
+          </ul>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+<!-- end about section -->
 
-  <!-- end about section -->
-
-  
-  <!-- activity section -->
-
-  <section class="activity_section layout_padding">
+  <!-- ✅ activity section (Task Changer FINAL) -->
+  <section class="activity_section activity_taskchanger layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
-        <h2>
-          동아리 활동
-        </h2>
+        <h2>동아리 활동</h2>
       </div>
-      <div class="activity_container">
-        <div class="box">
-          <div class="img-box">
-            <img src="https://cdn.jsdelivr.net/gh/4RG0S/2024-Spring-Homeless@main/images/education.png" alt="">
+
+      <div class="tc-wrap">
+        <div class="tc-stage" id="tcStage">
+          <div class="tc-bg" id="tcBg" aria-hidden="true"></div>
+
+          <div class="tc-cards" id="tcCards">
+            <!-- ✅ Education: 실제 사진 -->
+            <article class="tc-card" data-img="images/edu1.png" data-link="education.html">
+              <img class="tc-media" src="images/edu1.png" alt="동아리 교육">
+              <div class="tc-overlay">
+                <div class="tc-pill">Education</div>
+                <h3 class="tc-title">동아리 교육</h3>
+                <p class="tc-desc">월간 세미나, 자체 커리큘럼, 외부 연사 초청으로 기본기부터 실전까지 끌어올립니다.</p>
+                <div class="tc-tags">
+                  <span>#C</span><span>#Assembly</span><span>#System</span><span>#Reverse</span>
+                </div>
+                <a class="tc-link" href="education.html">자세히 보기 →</a>
+              </div>
+            </article>
+
+            <!-- ✅ Study: 실제 사진 -->
+            <article class="tc-card" data-img="images/study1.jpg" data-link="education.html">
+              <img class="tc-media" src="images/study1.jpg" alt="스터디팀 활동">
+              <div class="tc-overlay">
+                <div class="tc-pill">Study</div>
+                <h3 class="tc-title">스터디팀 활동</h3>
+                <p class="tc-desc">원하는 주제로 팀을 꾸리고 기록·공유합니다. 성과 기반 시상으로 동기부여까지.</p>
+                <div class="tc-tags">
+                  <span>#CTF</span><span>#Write-up</span><span>#Algorithm</span><span>#Team</span>
+                </div>
+                <a class="tc-link" href="education.html">자세히 보기 →</a>
+              </div>
+            </article>
+
+            <!-- ✅ Volunteer: 아이콘 + 그라디언트 (찢어짐 방지) -->
+            <article class="tc-card is-volunteer" data-img="images/edu2.png" data-link="education.html">
+              <img class="tc-media" src="images/volunteer.png" alt="교육 봉사활동">
+              <div class="tc-overlay">
+                <div class="tc-pill">Outreach</div>
+                <h3 class="tc-title">교육 봉사활동</h3>
+                <p class="tc-desc">찾아가는 SW 교육기부단, 쏙쏙캠프 등으로 지역 사회에 실질적인 교육 기여를 합니다.</p>
+                <div class="tc-tags">
+                  <span>#Mentoring</span><span>#SW</span><span>#Community</span>
+                </div>
+                <a class="tc-link" href="education.html">자세히 보기 →</a>
+              </div>
+            </article>
           </div>
-          <div class="detail-box">
-            <h5>
-              동아리 교육
-            </h5>
-            <p>
-              월간 세미나 및 자체 동아리 교육과 외부 연사초청 세미나 등을 통해 동아리원들의 학습을 돕습니다. <br>
-              2023년 동아리 교육 : C언어, Assembly, System Hacking ,Reverse Engineering, Bomb Lab, Git
-            </p>
+
+          <div class="tc-controls" aria-label="슬라이드 이동">
+            <button class="tc-arrow" type="button" id="tcPrev" aria-label="이전">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <button class="tc-arrow" type="button" id="tcNext" aria-label="다음">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9.5 5.5L16 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
           </div>
-        </div>
-        <div class="box">
-          <div class="img-box">
-            <img src="https://cdn.jsdelivr.net/gh/4RG0S/2024-Spring-Homeless@main/images/study.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h5>
-              스터디팀 활동
-            </h5>
-            <p>
-              본인이 원하는 스터디에 참가하여 동아리원들과 함께 공부를 할 수 있습니다. 주기적인 모임을 위해 커피값을 지원하며, 학기별로 성과에 따라 시상을 진행합니다. <br>
-              2023년 대표 스터디팀 : 죽고리즘(1일 1알고리즘 문제 풀이 스터디), I want flag(CTF Write-up 스터디)
-            </p>
-          </div>
-        </div>
-        <div class="box">
-          <div class="img-box">
-            <img src="https://cdn.jsdelivr.net/gh/4RG0S/2024-Spring-Homeless@main/images/volunteer.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h5>
-              교육 봉사활동
-            </h5>
-            <p>
-              지역 문화의 집 사업과 교육부 주관 쏙쏙캠프, 한국코드클럽 주관의 찾아가는 SW 교육기부단 등 다양한 봉사활동을 진행합니다.
-            </p>
-          </div>
+
+          <div class="tc-hint">드래그/스와이프 또는 ← →</div>
         </div>
       </div>
     </div>
   </section>
-
   <!-- end activity section -->
 
-  <!-- conferences section -->
 
+  <!-- conferences section -->
   <section class="conferences_section layout_padding">
     <div class="conferences_container">
       <div class="container ">
@@ -300,7 +563,7 @@
               </div>
               <div class="detail-box">
                 <h5>
-                  Just For Security CTF 
+                  Just For Security CTF
                 </h5>
                 <p>
                   자체 제작 문제 CTF 대회
@@ -317,11 +580,10 @@
       </div>
     </div>
   </section>
-
   <!-- end conferences section -->
 
-  <!-- info section -->
 
+  <!-- info section -->
   <section class="info_section layout_padding2">
     <div class="container">
       <div class="row">
@@ -378,14 +640,16 @@
       </div>
     </div>
   </section>
-
   <!-- end info section -->
+
 
   <!-- jQery -->
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous">
+    </script>
   <!-- bootstrap js -->
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- owl slider -->
@@ -393,9 +657,150 @@
   </script>
   <!-- custom js -->
   <script type="text/javascript" src="js/custom.js"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+
+  <!-- ✅ Task-Changer JS (buttons guaranteed clickable) -->
+  <script>
+    (function () {
+      const stage = document.getElementById("tcStage");
+      const bg = document.getElementById("tcBg");
+      const cards = Array.from(document.querySelectorAll("#tcCards .tc-card"));
+      const prevBtn = document.getElementById("tcPrev");
+      const nextBtn = document.getElementById("tcNext");
+
+      if (!stage || !bg || cards.length === 0) return;
+
+      let idx = 0;
+      let dragging = false;
+      let startX = 0;
+      let deltaX = 0;
+
+      function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+      function setActiveClass() {
+        cards.forEach((c, i) => c.classList.toggle("is-active", i === idx));
+      }
+
+      function setBgFromActive() {
+        const src = cards[idx].getAttribute("data-img");
+        if (src) bg.style.backgroundImage = `url('${src}')`;
+      }
+
+      function apply(offsetX = 0) {
+        const w = stage.clientWidth;
+        const drag = clamp(offsetX / (w * 0.65), -1.2, 1.2);
+
+        cards.forEach((card, i) => {
+          const rel = i - idx - drag;
+          const abs = Math.abs(rel);
+
+          const x = rel * 220;
+          const y = abs * 14;
+          const rotY = rel * -18;
+          const rotZ = rel * 2.2;
+          const scale = 1 - abs * 0.08;
+
+          const opacity = clamp(1 - abs * 0.20, 0, 1);
+          const blur = clamp(abs * 2.2, 0, 6);
+
+          // z-index는 3,2,1 정도만 (컨트롤은 항상 위)
+          const z = 3 - Math.round(abs);
+
+          card.style.zIndex = String(z);
+          card.style.opacity = String(opacity);
+          card.style.filter = `blur(${blur}px)`;
+          card.style.transform =
+            `translateX(${x}px) translateY(${y}px) rotateY(${rotY}deg) rotateZ(${rotZ}deg) scale(${scale})`;
+        });
+      }
+
+      function goNext() {
+        idx = (idx + 1) % cards.length;
+        setActiveClass();
+        setBgFromActive();
+        apply(0);
+      }
+
+      function goPrev() {
+        idx = (idx - 1 + cards.length) % cards.length;
+        setActiveClass();
+        setBgFromActive();
+        apply(0);
+      }
+
+      // ✅ 버튼 클릭이 드래그로 먹히는 문제 원천 차단
+      function stop(e) { e.preventDefault(); e.stopPropagation(); }
+      if (nextBtn) nextBtn.addEventListener("click", (e) => { stop(e); goNext(); });
+      if (prevBtn) prevBtn.addEventListener("click", (e) => { stop(e); goPrev(); });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") goNext();
+        if (e.key === "ArrowLeft") goPrev();
+      });
+
+      // ✅ 드래그 시작: 버튼/링크 위에서는 무시
+      function shouldIgnore(e) {
+        const t = e.target;
+        return !!(t && (t.closest(".tc-controls") || t.closest(".tc-link")));
+      }
+
+      function onDown(e) {
+        if (shouldIgnore(e)) return;
+        dragging = true;
+        stage.classList.add("is-dragging");
+        startX = (e.touches ? e.touches[0].clientX : e.clientX);
+        deltaX = 0;
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const x = (e.touches ? e.touches[0].clientX : e.clientX);
+        deltaX = x - startX;
+        apply(deltaX);
+      }
+
+      function onUp() {
+        if (!dragging) return;
+        dragging = false;
+        stage.classList.remove("is-dragging");
+
+        const threshold = 90;
+        if (deltaX > threshold) goPrev();
+        else if (deltaX < -threshold) goNext();
+        else apply(0);
+      }
+
+      stage.addEventListener("mousedown", onDown);
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onUp);
+
+      stage.addEventListener("touchstart", onDown, { passive: true });
+      stage.addEventListener("touchmove", onMove, { passive: true });
+      stage.addEventListener("touchend", onUp);
+
+      // 이미지 에러 대비
+      cards.forEach((c) => {
+        const img = c.querySelector("img.tc-media");
+        if (!img) return;
+        img.addEventListener("error", () => {
+          img.style.display = "none";
+          c.style.background = "linear-gradient(135deg, rgba(0,127,164,0.35), rgba(0,32,74,0.35))";
+        });
+      });
+
+      setActiveClass();
+      setBgFromActive();
+      apply(0);
+    })();
   </script>
+
+  <!-- ✅ Google Map callback 에러 방지 (없어도 되지만 콘솔 깨끗하게) -->
+  <script>
+    function myMap() { }
+  </script>
+  <!-- Google Map -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+    </script>
   <!-- End Google Map -->
 
 </body>
